@@ -12,7 +12,7 @@
         public function showMovies() {
             $this->_hallucineModel->requestMovies();
             $movies = $this->_hallucineModel->getMovies();
-            require "views/movies.views.php";
+            require "views/movies.view.php";
         }
     }
 ?>
