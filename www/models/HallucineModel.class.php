@@ -14,6 +14,12 @@ class hallucineModel extends Model{
         $request->execute(); //execute la requetes
         $rows = $request->fetchAll(PDO::FETCH_ASSOC);
         $request->closeCursor(); //Fermeture de la requete
+
+        foreach ($rows as $key => $value) {
+            $movie = new Movie($value["id"], $value["title"], $value["imag_url"], $value["runtime"], $value[description], $value["release_date"], $value["added_date"]);
+            $_movies[] = $movie;
     }
+
+    public function getMovies() {return $this->_movies;}
 }
 ?>
