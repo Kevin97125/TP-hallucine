@@ -1,0 +1,13 @@
+//https://www.php.net/manual/fr/language.exceptions.php
+
+//function avec parametre passer pour une connexion a une base de données.
+
+//langage en sql qui retourne des enregistrements (SELECT) de la table movies (FROM) stocké dans une variable
+
+//pour dire une requete sql
+    //var_dump($results);
+
+//fonction qui permet de ce connecter a une base de données en passant les parametre
+
+// connexion a la base de données stockés dans une variable avec id et mot de passe.
+        //var_dump($database); teste pour tester la connexion
