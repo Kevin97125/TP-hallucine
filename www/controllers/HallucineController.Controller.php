@@ -1,24 +1,35 @@
 <?php
 
-    require_once "models/HallucineModel.class.php";
+require_once "models/HallucineModel.class.php";
 
-    class HallucineController {
-        private $_hallucineModel;
+class HallucineController{
+    private $_hallucineModel;
 
-        public function __construct() {
-            $this->_hallucineModel = new HallucineModel;
-        }
-
-        public function showMovies() {
-            $this->_hallucineModel->requestMovies();
-            $movies = $this->_hallucineModel->getMovies();
-            require "views/movies.view.php";
-        }
-
-        public function showMovie(int $movieId){
-            $this->_hallucineModel->requestMovies($movieId);
-            $movie = $this->_hallucineModel->getMovie();
-            require"view/movie.view.php";
-        }
+    public function __construct(){
+        $this->_hallucineModel = new HallucineModel;
     }
+
+    public function showLogin(){
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            
+        } else {
+            require "views/login.view.php";
+        }
+        
+    }
+
+    public function showMovies(int $sort = HallucineModel::SORT_MOVIES_BY_TITLE){
+        $hm = $this->_hallucineModel;
+        $hm->requestMovies($sort);
+        $movies = $hm->getMovies();
+        require "views/movies.view.php";
+    }
+
+    public function showMovie(int $movieId){
+        $this->_hallucineModel->requestMovie($movieId);
+        $movie = $this->_hallucineModel->getMovie();
+        require "views/movie.view.php";
+    }
+}
+
 ?>
