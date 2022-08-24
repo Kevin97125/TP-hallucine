@@ -21,7 +21,20 @@ class hallucineModel extends Model{
             $this->_movies[] = $movie;
         }
     }
+    public function requestMovie(int $movieId){
+        $sql = "SELECT * FROM `movies` WHERE `id` = $movieId;";
+
+        $request = $this->_getDatabase("localhost", "hallucine", "root", "")->prepare($sql);
+        $request->execute(); //execute la requetes
+        $rows = $request->fetchAll(PDO::FETCH_ASSOC);
+        $request->closeCursor(); //Fermeture de la requete
+        $value = $rows[0];
+
+        $movie = new Movie();
+        $this->_movie = $movie;
+    }
 
     public function getMovies() {return $this->_movies;}
+    public function getMovie(){return $this->_movie;}
 }
 ?>

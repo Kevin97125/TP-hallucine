@@ -84,10 +84,9 @@ nav{
     font-size: 32px;
 }
 
-#movie #left {
+#left {
     width: 20%;
 }
-
-#movie #right {
+#right {
     width: 80%;
 }
