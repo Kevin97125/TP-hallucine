@@ -11,16 +11,22 @@ class HallucineController{
 
     public function showLogin(){
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            $user =$this ->_hallucineModel->requestLogin($_POST["email"], $_POST["password"]);
+            $user = $this->_hallucineModel->requestLogin($_POST["email"], $_POST["password"]);
             $loginStatus = $this->_hallucineModel->getLoginStatus();
             switch ($loginStatus) {
                 case HallucineModel::LOGIN_USER_NOT_FOUND:
                 case HallucineModel::LOGIN_INCORRECT_PASSWORD:
                     require "views/login.view.php";
                     break;
-                case Hallucine:
-                    # code...
+                case HallucineModel::LOGIN_OK:
+                    $_SESSION['user'] = serialize($user);
+                    var_dump($_SESSION['user']);
+                    $this->showMovies();
                     break;
+                default:
+                    "Cas non géré...";
+                    break;
+            }
         } else {
             require "views/login.view.php";
         }
@@ -35,6 +41,27 @@ class HallucineController{
     }
 
     public function showMovie(int $movieId){
+        if(isset($_SESSION['user'])){
+            $user = unserialize($_SESSION['user']);
+        }
+
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            switch ($_POST['action']) {
+                case HallucineModel::MOVIE_USER_RATE:
+                    $this->_hallucineModel->setMovieUserRating($_POST['userId'], $_POST['movieId'], $_POST['rate']);
+                    break;
+                
+                default:
+                    echo "cas de rating non géré...";
+                    break;
+            }
+        } else {
+            if (condition) {
+                # code...
+            }
+        }
+        
+
         $this->_hallucineModel->requestMovie($movieId);
         $movie = $this->_hallucineModel->getMovie();
         require "views/movie.view.php";
