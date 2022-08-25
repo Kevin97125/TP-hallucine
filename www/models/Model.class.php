@@ -15,7 +15,9 @@
        }
        return self::$_pdo;
     }
-
+        protected function _getRows($host, $dbname, $login, $password, $sql):array{
+            $request = $this->_getDatabase($host, )
+        }
         private static function _connect($host, $dbname, $login, $password){
             $db = new PDO("mysql:host=".$host.";dbname=".$dbname, $login, $password);
             

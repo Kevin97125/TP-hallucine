@@ -1,40 +1,81 @@
 <?php
 
 require_once "Model.class.php";
-require_once "movie.class.php";
+require_once "Movie.class.php";
 
-class hallucineModel extends Model{
+class HallucineModel extends Model{
     private $_movies;
+    private $_movie;
 
-    public function requestMovies(){
-        $_movies = array(); 
-        $sql = "SELECT * FROM `movies` ORDER BY title;";//recuperation des filmes
+    const SORT_MOVIES_BY_TITLE = 0;
+    const SORT_MOVIES_BY_RELEASE_DATE = 1;
+    const SORT_MOVIES_BY_ADDED_DATE = 2;
 
-        $request = $this->_getDatabase("localhost", "hallucine", "root", "")->prepare($sql);
+    public function requestlogin(string $email, string $password) {
+        $email = $this->_checkInput($email);
+        $sql = "SELECT * FROM user WHERE email = '$email'";
+        $rows = $this->_getRows(HOST, DB_NAME, LOGIN, PASSWORD, $sql);
+        if (count($rows) ==0) {
+            $this->loginStatus = self::LOGIN_USER_NOT_FOUND;
+            return;
+        }else {
+            $value = $rows[0];
+            if ($value["password"] !== $password) {
+                $this->loginStatus = self::LOGIN_INCORRECT_PASSWORD;
+                return;
+            } else {
+                $ser = new User($value["id"], $value["firstname"], $value["lastname"], $value["email"], $value["password"], $value["lastname"],);
+                $this->_loginStatus = self::LOGIN_ok;
+                return $user;
+            }
+            
+        }
 
-        $request->execute(); //execute la requetes
+    }
+
+    public function requestMovies($sort = self::SORT_MOVIES_BY_TITLE){
+        $_movies = array();
+
+        switch ($sort) {
+            case self::SORT_MOVIES_BY_TITLE:
+                $sql = "SELECT * FROM `movies` ORDER BY title;";
+                break;
+            case self::SORT_MOVIES_BY_RELEASE_DATE:
+                $sql = "SELECT * FROM `movies` ORDER BY release_date;";
+                break;
+            case self::SORT_MOVIES_BY_ADDED_DATE:
+                $sql = "SELECT * FROM `movies` ORDER BY added_date;";
+                break;
+            default:
+                $sql = "SELECT * FROM `movies`;";
+                break;
+        }
+
+        $request = $this->_getDatabase("localhost", "hallucine", "root", "Admin-01")->prepare($sql);
+        $request->execute();
         $rows = $request->fetchAll(PDO::FETCH_ASSOC);
-        $request->closeCursor(); //Fermeture de la requete
+        $request->closeCursor();
 
         foreach ($rows as $key => $value) {
             $movie = new Movie($value["id"], $value["title"], $value["image_url"], $value["runtime"], $value["description"], $value["release_date"], $value["added_date"]);
             $this->_movies[] = $movie;
         }
     }
-    public function requestMovie(int $movieId){
-        $sql = "SELECT * FROM `movies` WHERE `id` = $movieId;";
 
-        $request = $this->_getDatabase("localhost", "hallucine", "root", "")->prepare($sql);
-        $request->execute(); //execute la requetes
+    public function requestMovie(int $movieId){
+         $sql = "SELECT * FROM `movies` WHERE id = $movieId;";
+        $request = $this->_getDatabase("localhost", "hallucine", "root", "Admin-01")->prepare($sql);
+        $request->execute();
         $rows = $request->fetchAll(PDO::FETCH_ASSOC);
-        $request->closeCursor(); //Fermeture de la requete
+        $request->closeCursor();
         $value = $rows[0];
 
-        $movie = new Movie();
+        $movie = new Movie($value["id"], $value["title"], $value["image_url"], $value["runtime"], $value["description"], $value["release_date"], $value["added_date"]);
         $this->_movie = $movie;
     }
 
-    public function getMovies() {return $this->_movies;}
+    public function getMovies(){return $this->_movies;}
     public function getMovie(){return $this->_movie;}
+
 }
 ?>
