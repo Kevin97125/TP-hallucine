@@ -1,6 +1,6 @@
 <?php
     try{
-        $database = connect("localhost", "hallucine", "root", "");
+        $database = connect("localhost", "hallucine", "root", "Admin-01");
     }catch(Exception $error){
         echo "Erreur de connexion à la BDD.<br>";
         die("ERROR: ".$error->getMessage());

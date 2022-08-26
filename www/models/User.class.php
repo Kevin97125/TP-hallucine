@@ -1,19 +1,28 @@
-<?php class User{
+<?php
+class User{
 
     private int $_id;
-    private string $_firstName;
-    private string $_lastName;
+    private string $_firstname;
+    private string $_lastname;
     private string $_email;
     private string $_password;
-    private string $sex;
-    public function _construct($id, $firstname, $lastname, $email, $password, $sex){
+    private bool $_sex;
 
+    public function __construct($id, $firstname, $lastname, $email, $password, $sex){
+        $this->_id = $id;
+        $this->_firstname = $firstname;
+        $this->_lastname = $lastname;
+        $this->_email = $email;
+        $this->_password = $password;
+        $this->_sex = $sex == 0 ? false : true;
     }
 
-    public function getId(){return $this->id;}
-    public function getFirstName(){return $this->firstname;}
-    public function getLastName(){return $this->lastname;}
-    public function getEmail(){return $this->email;}
-    public function getPassword(){return $this->password;}
-    public function getSex(){return $this->sex;}
+    public function getId(){return $this->_id;}
+    public function getFirstname(){return $this->_firstname;}
+    public function getLastname(){return $this->_lastname;}
+    public function getEmail(){return $this->_email;}
+    public function getPassword(){return $this->_password;}
+    public function getSex(){return $this->_sex;}
+
+}
 ?>

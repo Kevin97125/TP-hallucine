@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.0.4
 -- https://www.phpmyadmin.net/
 --
--- Hôte : localhost
--- Généré le : ven. 26 août 2022 à 00:21
--- Version du serveur : 10.4.21-MariaDB
--- Version de PHP : 7.4.29
+-- Hôte : localhost:3306
+-- Généré le : ven. 19 août 2022 à 15:15
+-- Version du serveur :  5.7.24
+-- Version de PHP : 8.0.1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -126,7 +126,7 @@ CREATE TABLE `movies` (
   `runtime` int(6) NOT NULL,
   `description` text NOT NULL,
   `release_date` date NOT NULL,
-  `added_date` timestamp NOT NULL DEFAULT current_timestamp()
+  `added_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -200,16 +200,6 @@ CREATE TABLE `movies_genres` (
   `genre_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Déchargement des données de la table `movies_genres`
---
-
-INSERT INTO `movies_genres` (`id`, `movie_id`, `genre_id`) VALUES
-(3, 8, 1),
-(4, 8, 2),
-(5, 4, 4),
-(6, 2, 4);
-
 -- --------------------------------------------------------
 
 --
@@ -228,10 +218,10 @@ CREATE TABLE `movies_users_ratings` (
 --
 
 INSERT INTO `movies_users_ratings` (`id`, `user_id`, `movie_id`, `rate`) VALUES
+(8, 1, 9, 82),
 (9, 2, 9, 34),
 (12, 4, 8, 75),
-(15, 1, 4, 44),
-(19, 1, 8, 87);
+(13, 1, 8, 65);
 
 -- --------------------------------------------------------
 
@@ -253,10 +243,10 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `firstname`, `lastname`, `email`, `password`, `sex`) VALUES
-(1, 'Nicolas', 'Védrine', 'nicolas.vedrine@gmail.com', '$2y$10$fPbW61cUV2pX8.R31smpLOD6hEpbZGacYFEpnCDqd2Qv.sL0bJ10G', 0),
-(2, 'Kévin', 'Kali', 'kevin.kali@gmail.com', '$2y$10$fPbW61cUV2pX8.R31smpLOD6hEpbZGacYFEpnCDqd2Qv.sL0bJ10G', 0),
-(3, 'Bernet', 'Boisdur', 'bernet.boisdur@gmail.com', '$2y$10$fPbW61cUV2pX8.R31smpLOD6hEpbZGacYFEpnCDqd2Qv.sL0bJ10G', 0),
-(4, 'Alex', 'Hubert', 'alex.hubert@gmail.com', '$2y$10$fPbW61cUV2pX8.R31smpLOD6hEpbZGacYFEpnCDqd2Qv.sL0bJ10G', 0);
+(1, 'Nicolas', 'Védrine', 'nicolas.vedrine@gmail.com', '1234', 0),
+(2, 'Kévin', 'Kali', 'kevin.kali@gmail.com', '1234', 0),
+(3, 'Bernet', 'Boisdur', 'bernet.boisdur@gmail.com', '1234', 0),
+(4, 'Alex', 'Hubert', 'alex.hubert@gmail.com', '1234', 0);
 
 --
 -- Index pour les tables déchargées
@@ -315,8 +305,7 @@ ALTER TABLE `movies_users_ratings`
 -- Index pour la table `users`
 --
 ALTER TABLE `users`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `email` (`email`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- AUTO_INCREMENT pour les tables déchargées
@@ -356,13 +345,13 @@ ALTER TABLE `movies_castings`
 -- AUTO_INCREMENT pour la table `movies_genres`
 --
 ALTER TABLE `movies_genres`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT pour la table `movies_users_ratings`
 --
 ALTER TABLE `movies_users_ratings`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT pour la table `users`
